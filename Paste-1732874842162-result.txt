@@ -1,0 +1,39 @@
+-- Frame Chest Script for Blox Fruits
+
+local chestFrame = script.Parent  -- The part or model representing the frame of the chest
+local chest = chestFrame:WaitForChild("Chest")  -- Inside part representing the chest
+local reward = "Blox Fruit"  -- Define the reward (you can change this to any item or fruit)
+local cooldownTime = 10  -- Time in seconds before the chest can be opened again
+local canOpen = true  -- Boolean to check if the chest can be opened
+
+-- Function to handle the opening of the chest
+local function openChest(player)
+    if canOpen then
+        canOpen = false  -- Lock the chest temporarily
+
+        -- Print a message to the console (you can replace this with any reward logic)
+        print(player.Name .. " opened the chest and received a " .. reward)
+        
+        -- Here you can add the code to give the player a specific reward (e.g., a Blox Fruit)
+        -- Example: player.Backpack:FindFirstChild("Fruit"):Clone() 
+
+        -- Start cooldown
+        wait(cooldownTime)
+        canOpen = true  -- Re-enable chest opening after cooldown
+    else
+        -- Notify the player if the chest is on cooldown
+        print("The chest is on cooldown!")
+    end
+end
+
+-- Detect when a player touches the chest frame or interacts with the chest
+chestFrame.Touched:Connect(function(hit)
+    local player = game.Players:GetPlayerFromCharacter(hit.Parent)
+    
+    if player then
+        -- If a player touches the chest frame, attempt to open the chest
+        openChest(player)
+    end
+end)
+
+-- Optional: You can create additional UI feedback (such as a prompt to interact)
